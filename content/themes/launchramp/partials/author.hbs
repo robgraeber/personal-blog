@@ -1,0 +1,34 @@
+<div class="author-bio byline vcard{{#if author.cover}} author-cover{{/if}}" itemscope itemtype="http://schema.org/Person">
+	<div class="author-bio-prep">Written by:</div>
+	{{#if author.image}}
+		<div class="author-media">
+			<img id="author-image" class="author-image avatar" src="{{author.image}}" alt="{{author.name}}" itemprop="image" />
+		</div>
+	{{/if}}
+	<div class="author-content">
+		<h6 class="author-name author fn" itemprop="author">{{author.name}}</h6>
+		{{#if author.bio}}
+			<p class="author-description description summary" itemprop="description">{{author.bio}}</p>
+		{{/if}}
+		{{#if author.website}}
+			<div class="author-meta">
+				{{#if author.location}}
+					<span class="author-location" itemprop="workLocation">{{author.location}}<span class="prep"> &mdash; </span></span>
+				{{/if}}
+				<a class="author-website url" href="{{author.website}}" itemprop="url">{{author.website}}</a>
+			</div>
+		{{/if}}
+		<ul class="author-social">
+			<li><a class="social-icon-github" title="GitHub" href="#">GitHub</a></li>
+			<li><a class="social-icon-vimeo" title="Vimeo" href="#">Vimeo</a></li>
+			<li><a class="social-icon-twitter" title="Twitter" href="#">Twitter</a></li>
+			<li><a class="social-icon-facebook" title="Facebook" href="#">Facebook</a></li>
+			<li><a class="social-icon-googleplus" title="Google+" href="#">Google+</a></li>
+			<li><a class="social-icon-pinterest" title="Pinterest" href="#">Pinterest</a></li>
+			<li><a class="social-icon-tumblr" title="Tumblr" href="#">Tumblr</a></li>
+			<li><a class="social-icon-linkedin" title="LinkedIn" href="#">LinkedIn</a></li>
+			<li><a class="social-icon-dribble" title="Dribble" href="#">Dribble</a></li>
+			<li><a class="social-icon-stumbleupon" title="StumbleUpon" href="#">StumbleUpon</a></li>
+		</ul>
+	</div>
+</div>

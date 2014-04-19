@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>{{code}} - {{message}}</title>
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+
+		<link rel="stylesheet" href="{{asset "css/style.css"}}" />
+		<link rel='stylesheet' href="//fonts.googleapis.com/css?family=Oswald:300,400,700|Vollkorn:400italic,700italic,400,700" />
+	</head>
+	<body class="error-{{code}}">
+
+		<div id="launchramp" class="default">
+
+			<main id="main" class="id-main" role="main">
+				<div id="entry-error" class="page">
+					<div class="entry-inner">
+
+						<header class="entry-header">
+							<h1 class="error-code entry-title">{{code}}</h1>
+							<h2 class="error-description">{{message}}</h2>
+						</header>
+
+						<div class="entry-content">
+							<blockquote>
+								<p>Oh, oobee doo<br />
+								I wan&rsquo;na be like you<br />
+								I wan&rsquo;na walk like you<br />
+								Talk like you, too<br />
+								You&rsquo;ll see it&rsquo;s true<br />
+								An ape like me<br />
+								Can learn to be human, too</p>
+							</blockquote>
+							<p><a class="more-link" href="{{@blog.url}}">Take me home daddy!</a></p>
+						</div>
+
+					</div>
+				</div>
+			</main>
+
+		</div><!-- #container -->
+
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<article id="entry-{{id}}" class="hentry entry post-long {{post_class}}" role="article" itemscope itemtype="http://schema.org/Article">
+	<div class="entry-inner">
+
+		<header class="entry-header">
+
+			<h1 class="entry-title" itemprop="headline">{{title}}</h1>
+
+			<div class="entry-meta entry-header-meta">
+
+				<time class="entry-meta-date updated" datetime="{{date format='YYYY-MM-DD'}}" itemprop="datePublished">{{date published_at format="YYYY.MM.DD"}}</time>
+
+				{{#if tags}}
+					<span class="entry-meta-tags tags">{{tags}}</span>
+				{{/if}}
+
+				<a class="entry-meta-comments" href="{{url absolute='true'}}#disqus_thread">Comments</a>
+
+			</div>
+
+		</header>
+
+		<div class="entry-content entry-full" itemprop="articleBody">
+			{{content}}
+		</div>
+
+		<footer class="entry-footer">
+			{{> sharing}}
+			{{> author}}
+			{{> comments}}
+		</footer>
+
+	</div>
+</article>

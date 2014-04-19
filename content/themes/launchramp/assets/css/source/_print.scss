@@ -1,0 +1,144 @@
+@media print {
+
+//-------------------------------------------------------------------------------------
+// Modified H5BP
+//-------------------------------------------------------------------------------------
+
+	* {
+		border-color: #000 !important;
+		background: transparent !important;
+		box-shadow: none !important;
+		color: #000 !important;
+		text-shadow: none !important;
+	}
+
+	a,
+	a:visited {
+		text-decoration: underline;
+	}
+
+	abbr[title]:after {
+		content: " (" attr(title) ")";
+	}
+
+	pre,
+	blockquote {
+		border: 1px solid #999;
+		page-break-inside: avoid;
+	}
+
+	thead {
+		display: table-header-group; /* h5bp.com/t */
+	}
+
+	tr,
+	img {
+		page-break-inside: avoid;
+	}
+
+	img {
+		max-width: 100% !important;
+	}
+
+	p,
+	h2,
+	h3 {
+		orphans: 3;
+		widows: 3;
+	}
+
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
+
+//-------------------------------------------------------------------------------------
+// Custom
+//-------------------------------------------------------------------------------------
+
+	body {
+		font-size: 9pt;
+	}
+
+	pre code {
+		border: none;
+	}
+
+	pre code,
+	.well,
+	.alert {
+		page-break-inside: avoid;
+	}
+
+	.well {
+		padding-right: $gutter;
+		padding-left: $gutter;
+		border: 1px solid #999;
+	}
+
+	.inner {
+		padding: 0;
+	}
+
+	.id-nav,
+	.newer-posts:before,
+	.older-posts:after,
+	.entry-meta-comments,
+	.id-share,
+	#disqus_thread,
+	.id-footer-links {
+		display: none;
+	}
+
+	.id-header,
+	.pagination-wrapper,
+	.id-footer {
+		text-align: left;
+	}
+
+	.id-header {
+		padding: 0 0 2em;
+	}
+
+	.with-blog-logo {
+		.id-site-logo-link {
+			display: none;
+		}
+		.id-site-title {
+			position: static;
+			overflow: visible;
+			clip: auto;
+			margin: 0;
+			width: auto;
+			height: auto;
+		}
+	}
+
+	#site-title .bigtext-line0 {
+		white-space: normal;
+		font-size: 2.5em !important;
+	}
+
+	.id-site-description {
+		margin-top: 0.83em;
+	}
+
+	.entry {
+		padding: 1em 0;
+	}
+
+	.author-media {
+		max-width: 1.5in;
+	}
+
+	.pagination span {
+		padding: 0;
+	}
+
+	.id-footer {
+		padding: 1em 0 0;
+		border-top: 1px solid #000;
+		text-align: left;
+	}
+
+}

@@ -1,0 +1,26 @@
+<article id="entry-{{id}}" class="hentry entry post-short {{post_class}}{{#if @first}} first{{/if}}{{#if @last}} last{{/if}}{{#if @odd}} odd{{else}} even{{/if}}" role="article" role="article" itemscope itemtype="http://schema.org/Article">
+	<div class="entry-inner">
+
+		<header class="entry-header">
+
+			<h1 class="entry-title" itemprop="headline"><a class="entry-header-link" href="{{url}}" rel="bookmark">{{title}}</a></h1>
+
+			<div class="entry-meta entry-header-meta">
+				<time class="entry-meta-date updated" datetime="{{date format='YYYY-MM-DD'}}" itemprop="datePublished">{{date published_at format="YYYY.MM.DD"}}</time>
+
+				{{#if tags}}
+					<span class="entry-meta-tags tags">{{tags}}</span>
+				{{/if}}
+
+				<a class="entry-meta-comments" href="{{url absolute='true'}}#disqus_thread">Comments</a>
+			</div>
+
+		</header>
+
+		<div class="entry-content entry-excerpt" itemprop="articleBody">
+			<div class="entry-media"><a href="{{url}}" rel="bookmark">{{content characters="0"}}</a></div>
+			<p>{{excerpt}}&nbsp;&hellip; <a class="more-link" href="{{url}}">Continue Reading</a></p>
+		</div>
+
+	</div>
+</article>
