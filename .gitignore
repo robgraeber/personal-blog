@@ -1,3 +1,7 @@
 /node_modules
 Ghost.sublime-project
 Ghost.sublime-workspace
+.DS_Store
+config.example.js
+.sass-cache
+/logs

@@ -1,167 +1,162 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		{{! Page Meta }}
-		<title>{{meta_title}}</title>
-		<meta name="description" content="{{meta_description}}" />
-		{{#post}}{{#if author.name}}
-			<meta name="author" content="{{author.name}}" />
-		{{/if}}{{/post}}
+    {{! Page Meta }}
+    <title>{{meta_title}}</title>
+    <meta name="description" content="{{meta_description}}" />
+    {{#post}}{{#if author.name}}
+      <meta name="author" content="{{author.name}}" />
+    {{/if}}{{/post}}
 
-		{{! Favicons}}
-		<link rel="apple-touch-icon-precomposed" href="{{asset "images/favicon-152.png"}}" />
-		<!--[if IE]><link rel="shortcut icon" href="{{asset "images/favicon.ico"}}" /><![endif]-->
-		<link rel="icon" href="{{asset "images/favicon.png"}}" />
-		<meta name="msapplication-TileColor" content="#FFFFFF" />
-		<meta name="msapplication-TileImage" content="{{asset "images/favicon-144.png"}}" />
+    {{! Favicons}}
+    <link rel="apple-touch-icon-precomposed" href="{{asset "images/favicon-152.png"}}" />
+    <!--[if IE]><link rel="shortcut icon" href="{{asset "images/favicon.ico"}}" /><![endif]-->
+    <link rel="icon" href="{{asset "images/favicon.png"}}" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="{{asset "images/favicon-144.png"}}" />
 
-		{{! Theme stylesheets }}
-		<link rel="stylesheet" href="{{asset "css/style.css"}}" />
-		<link rel='stylesheet' href="//fonts.googleapis.com/css?family=Oswald:300,400,700|Vollkorn:400italic,700italic,400,700" />
+    {{! Theme stylesheets }}
+    <link rel="stylesheet" href="{{asset "css/style.css"}}" />
+    <link rel='stylesheet' href="//fonts.googleapis.com/css?family=Oswald:300,400,700|Vollkorn:400italic,700italic,400,700" />
 
-		{{! User generated styles }}
-		<style>
-			{{#if @blog.logo}}.blog-logo { background-image: url('{{@blog.logo}}'); }{{/if}}
-			{{#if @blog.cover}}.blog-cover { background-image: url('{{@blog.cover}}'); }{{/if}}
-		{{#post}}
-			{{#if author.image}}.author-image { background-image: url('{{author.image}}'); }{{/if}}
-			{{#if author.cover}}.author-cover { background-image: url('{{author.cover}}'); }{{/if}}
-		{{/post}}
-		</style>
+    {{! User generated styles }}
+    <style>
+      {{#if @blog.logo}}.blog-logo { background-image: url('{{@blog.logo}}'); }{{/if}}
+      {{#if @blog.cover}}.blog-cover { background-image: url('{{@blog.cover}}'); }{{/if}}
+    {{#post}}
+      {{#if author.image}}.author-image { background-image: url('{{author.image}}'); }{{/if}}
+      {{#if author.cover}}.author-cover { background-image: url('{{author.cover}}'); }{{/if}}
+    {{/post}}
+    </style>
 
-		{{ghost_head}}
-	</head>
-	<body class="{{body_class}}">
+    {{ghost_head}}
+  </head>
+  <body class="{{body_class}}">
 
-		<div id="launchramp" class="hue-default">
+    <div id="launchramp" class="hue-default">
 
-			<header id="header" class="id-header{{#if @blog.logo}} with-blog-logo{{else}} without-blog-logo{{/if}}{{#if @blog.cover}} blog-cover{{/if}}" role="banner">
+      <header id="header" class="id-header{{#if @blog.logo}} with-blog-logo{{else}} without-blog-logo{{/if}}{{#if @blog.cover}} blog-cover{{/if}}" role="banner">
 
-				<div id="site-headings" class="id-site-headings">
-					{{#if @blog.logo}}
-						<a id="site-logo-link" class="id-site-logo-link" href="{{@blog.url}}" rel="home">
-							<img id="site-logo" class="id-site-logo" src="{{@blog.logo}}" alt="{{#if @blog.title}}{{@blog.title}} {{/if}}logo" />
-						</a>
-					{{/if}}
+        <div id="site-headings" class="id-site-headings">
+          {{#if @blog.logo}}
+            <a id="site-logo-link" class="id-site-logo-link" href="{{@blog.url}}" rel="home">
+              <img id="site-logo" class="id-site-logo" src="{{@blog.logo}}" alt="{{#if @blog.title}}{{@blog.title}} {{/if}}logo" />
+            </a>
+          {{/if}}
 
-					{{#if @blog.title}}
-						<h1 id="site-title" class="id-site-title"><a href="{{@blog.url}}" rel="home">{{@blog.title}}</a></h1>
-					{{/if}}
+          {{#if @blog.title}}
+            <h1 id="site-title" class="id-site-title"><a href="{{@blog.url}}" rel="home">{{@blog.title}}</a></h1>
+          {{/if}}
 
-					{{#if @blog.description}}
-						<h2 id="site-description" class="id-site-description">{{@blog.description}}</h2>
-					{{/if}}
-				</div>
+          {{#if @blog.description}}
+            <h2 id="site-description" class="id-site-description">{{@blog.description}}</h2>
+          {{/if}}
+        </div>
 
-				<nav id="nav" class="id-nav" role="navigation">
-					<h1 id="nav-title" class="id-nav-title"><a id="nav-trigger" class="id-nav-trigger" href="#main-menu"><span>Main Menu</span></a></h1>
-					<a id="skip-link" class="id-skip-link skip-link visuallyhidden" href="#main">Skip to primary content</a>
-					<div id="nav-wrapper" class="id-nav-wrapper">
-						{{> menu}}
-					</div>
-				</nav>
+        <nav id="nav" class="id-nav" role="navigation">
+        </nav>
 
-			</header>
+      </header>
 
-			<main id="main" class="id-main" role="main">
-				{{{body}}}
-			</main>
+      <main id="main" class="id-main" role="main">
+        {{{body}}}
+      </main>
 
-			<footer id="footer" class="id-footer" role="contentinfo">
+      <footer id="footer" class="id-footer" role="contentinfo">
 
-				<div id="footer-links" class="id-footer-links">
-					<a id="link-rss" class="id-link-rss" href="{{@blog.url}}/rss/">RSS</a>
-					<a id="link-top" class="id-link-top" href="#page">Top</a>
-				</div>
+        <div id="footer-links" class="id-footer-links">
+          <a id="link-rss" class="id-link-rss" href="{{@blog.url}}/rss/">RSS</a>
+          <a id="link-top" class="id-link-top" href="#page">Top</a>
+        </div>
 
-				<small id="site-copyright" class="id-site-copyright source-org vcard copyright"><span class="first">&copy; {{date format="YYYY"}} <a class="org fn" href="{{@blog.url}}" rel="home">{{@blog.title}}</a>.</span> <span class="last">All rights reserved.</span></small>
+        <small id="site-copyright" class="id-site-copyright source-org vcard copyright"><span class="first">&copy; {{date format="YYYY"}} <a class="org fn" href="{{@blog.url}}" rel="home">Rob Graeber</a>.</span> <span class="last">All rights reserved.</span></small>
 
-			</footer>
+      </footer>
 
-		</div><!-- #container -->
+    </div><!-- #container -->
 
-		{{ghost_foot}}
+    {{ghost_foot}}
 
-		{{#unless @blog.logo}}
-			<script src="//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
-			<script src="{{asset "js/bigtext.js"}}"></script>
-		{{/unless}}
-		<script src="{{asset "js/fitvids.js"}}"></script>
-		<script>
-			(function($) {
-				{{#unless @blog.logo}}
-					// BigText
-					if ('querySelectorAll' in document) {
-						WebFont.load({
-							custom: {
-								families: ['Oswald']
-							},
-							active: function() {
-								$('#site-title').bigtext({
-									childSelector: '> a'
-								});
-							}
-						});
-					}
-				{{/unless}}
+    {{#unless @blog.logo}}
+      <script src="//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+      <script src="{{asset "js/bigtext.js"}}"></script>
+    {{/unless}}
+    <script src="{{asset "js/fitvids.js"}}"></script>
+    <script>
+      (function($) {
+        {{#unless @blog.logo}}
+          // BigText
+          if ('querySelectorAll' in document) {
+            WebFont.load({
+              custom: {
+                families: ['Oswald']
+              },
+              // active: function() {
+              //  $('#site-title').bigtext({
+              //    childSelector: '> a'
+              //  });
+              // }
+            });
+          }
+        {{/unless}}
 
-				// Detect a Touch Screen
-				function is_touch_device() {
-					return (('ontouchstart' in window) || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
-				}
+        // Detect a Touch Screen
+        function is_touch_device() {
+          return (('ontouchstart' in window) || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+        }
 
-				// Parallax Header
-				if (!is_touch_device()) {
-					var parallaxRatio = 0.35;
-					$(window).on('scroll', function() {
-						var distance = $(window).scrollTop();
-						$('.blog-cover').css({
-							'background-position': 'left ' + (distance * parallaxRatio) + 'px'
-						});
-					});
-				}
+        // Parallax Header
+        if (!is_touch_device()) {
+          var parallaxRatio = 0.35;
+          $(window).on('scroll', function() {
+            var distance = $(window).scrollTop();
+            $('.blog-cover').css({
+              'background-position': 'left ' + (distance * parallaxRatio) + 'px'
+            });
+          });
+        }
 
-				// FitVids
-				$('.entry-content').fitVids();
+        // FitVids
+        $('.entry-content').fitVids();
 
-				// Nav Toggle
-				$('#nav-trigger').on('touchstart click', function() {
-					$('#nav').toggleClass('active');
-					return false;
-				});
+        // Nav Toggle
+        $('#nav-trigger').on('touchstart click', function() {
+          $('#nav').toggleClass('active');
+          return false;
+        });
 
-				// Scroll to top
-				$('#link-top').on('touchstart click', function() {
-					$('html,body').animate({
-						scrollTop: $('#launchramp').offset().top
-					}, 250);
-					return false;
-				});
+        // Scroll to top
+        $('#link-top').on('touchstart click', function() {
+          $('html,body').animate({
+            scrollTop: $('#launchramp').offset().top
+          }, 250);
+          return false;
+        });
 
-				{{#post}}
+        {{#post}}
 
-					// Scroll to comments
-					$('.entry-meta-comments').on('touchstart click', function() {
-						$('html,body').animate({
-							scrollTop: $('#disqus_thread').offset().top
-						}, 250);
-						return false;
-					});
+          // Scroll to comments
+          $('.entry-meta-comments').on('touchstart click', function() {
+            $('html,body').animate({
+              scrollTop: $('#disqus_thread').offset().top
+            }, 250);
+            return false;
+          });
 
-					// Disqus comments
-					var disqus_shortname = '';
-					var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true; dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-					(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-					// Disqus comment count
-					var s = document.createElement('script'); s.async = true; s.type = 'text/javascript'; s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-					(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          // Disqus comments
+          var disqus_shortname = '';
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true; dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          // Disqus comment count
+          var s = document.createElement('script'); s.async = true; s.type = 'text/javascript'; s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+          (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
 
-				{{/post}}
-			})(jQuery);
-		</script>
+        {{/post}}
+      })(jQuery);
+    </script>
 
-	</body>
+  </body>
 </html>
