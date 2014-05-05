@@ -1,31 +1,25 @@
-var Bookshelf = require('bookshelf'),
+var ghostBookshelf,
+    Bookshelf = require('bookshelf'),
     when      = require('when'),
     moment    = require('moment'),
-    _         = require('lodash'),
+    _         = require('underscore'),
     uuid      = require('node-uuid'),
     config    = require('../config'),
+    Validator = require('validator').Validator,
     unidecode = require('unidecode'),
-    sanitize  = require('validator').sanitize,
-    schema    = require('../data/schema'),
-    validation     = require('../data/validation'),
-
-    ghostBookshelf;
+    sanitize  = require('validator').sanitize;
 
 // Initializes a new Bookshelf instance, for reference elsewhere in Ghost.
 ghostBookshelf = Bookshelf.ghost = Bookshelf.initialize(config().database);
 ghostBookshelf.client = config().database.client;
 
+ghostBookshelf.validator = new Validator();
 
 // The Base Model which other Ghost objects will inherit from,
 // including some convenience functions as static properties on the model.
 ghostBookshelf.Model = ghostBookshelf.Model.extend({
 
     hasTimestamps: true,
-
-    // get permitted attributs from schema.js
-    permittedAttributes: function () {
-        return _.keys(schema.tables[this.tableName]);
-    },
 
     defaults: function () {
         return {
@@ -34,17 +28,9 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
     },
 
     initialize: function () {
-        var self = this;
         this.on('creating', this.creating, this);
-        this.on('saving', function (model, attributes, options) {
-            return when(self.saving(model, attributes, options)).then(function () {
-                return self.validate(model, attributes, options);
-            });
-        });
-    },
-
-    validate: function () {
-        validation.validateSchema(this.tableName, this.toJSON());
+        this.on('saving', this.saving, this);
+        this.on('saving', this.validate, this);
     },
 
     creating: function () {
@@ -54,13 +40,10 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
     },
 
     saving: function () {
-         // Remove any properties which don't belong on the model
-        this.attributes = this.pick(this.permittedAttributes());
+         // Remove any properties which don't belong on the post model
+        this.attributes = this.pick(this.permittedAttributes);
 
-        // sessions do not have 'updated_by' column
-        if (this.tableName !== 'sessions') {
-            this.set('updated_by', 1);
-        }
+        this.set('updated_by', 1);
     },
 
     // Base prototype properties will go here
@@ -199,39 +182,36 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
     generateSlug: function (Model, base, readOptions) {
         var slug,
             slugTryCount = 1,
-            baseName = Model.prototype.tableName.replace(/s$/, ''),
             // Look for a post with a matching slug, append an incrementing number if so
-            checkIfSlugExists;
-
-        checkIfSlugExists = function (slugToFind) {
-            var args = {slug: slugToFind};
-            //status is needed for posts
-            if (readOptions && readOptions.status) {
-                args.status = readOptions.status;
-            }
-            return Model.findOne(args, readOptions).then(function (found) {
-                var trimSpace;
-
-                if (!found) {
-                    return when.resolve(slugToFind);
+            checkIfSlugExists = function (slugToFind) {
+                var args = {slug: slugToFind};
+                //status is needed for posts
+                if (readOptions && readOptions.status) {
+                    args.status = readOptions.status;
                 }
+                return Model.findOne(args, readOptions).then(function (found) {
+                    var trimSpace;
 
-                slugTryCount += 1;
+                    if (!found) {
+                        return when.resolve(slugToFind);
+                    }
 
-                // If this is the first time through, add the hyphen
-                if (slugTryCount === 2) {
-                    slugToFind += '-';
-                } else {
-                    // Otherwise, trim the number off the end
-                    trimSpace = -(String(slugTryCount - 1).length);
-                    slugToFind = slugToFind.slice(0, trimSpace);
-                }
+                    slugTryCount += 1;
 
-                slugToFind += slugTryCount;
+                    // If this is the first time through, add the hyphen
+                    if (slugTryCount === 2) {
+                        slugToFind += '-';
+                    } else {
+                        // Otherwise, trim the number off the end
+                        trimSpace = -(String(slugTryCount - 1).length);
+                        slugToFind = slugToFind.slice(0, trimSpace);
+                    }
 
-                return checkIfSlugExists(slugToFind);
-            });
-        };
+                    slugToFind += slugTryCount;
+
+                    return checkIfSlugExists(slugToFind);
+                });
+            };
 
         slug = base.trim();
 
@@ -251,12 +231,12 @@ ghostBookshelf.Model = ghostBookshelf.Model.extend({
         slug = slug.charAt(slug.length - 1) === '-' ? slug.substr(0, slug.length - 1) : slug;
 
         // Check the filtered slug doesn't match any of the reserved keywords
-        slug = /^(ghost|ghost\-admin|admin|wp\-admin|wp\-login|dashboard|logout|login|signin|signup|signout|register|archive|archives|category|categories|tag|tags|page|pages|post|posts|user|users|rss|feed)$/g
-            .test(slug) ? slug + '-' + baseName : slug;
+        slug = /^(ghost|ghost\-admin|admin|wp\-admin|wp\-login|dashboard|logout|login|signin|signup|signout|register|archive|archives|category|categories|tag|tags|page|pages|post|posts|user|users|rss)$/g
+            .test(slug) ? slug + '-post' : slug;
 
         //if slug is empty after trimming use "post"
         if (!slug) {
-            slug = baseName;
+            slug = 'post';
         }
         // Test for duplicate slugs.
         return checkIfSlugExists(slug);

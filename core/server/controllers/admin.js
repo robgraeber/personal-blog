@@ -1,5 +1,5 @@
 var config        = require('../config'),
-    _             = require('lodash'),
+    _             = require('underscore'),
     path          = require('path'),
     when          = require('when'),
     api           = require('../api'),
@@ -12,6 +12,7 @@ var config        = require('../config'),
     adminControllers,
     loginSecurity = [];
 
+ // TODO: combine path/navClass to single "slug(?)" variable with no prefix
 adminNavbar = {
     content: {
         name: 'Content',
@@ -43,102 +44,7 @@ function setSelected(list, name) {
 }
 
 adminControllers = {
-    // Route: index
-    // Path: /ghost/
-    // Method: GET
-    'index': function (req, res) {
-        /*jslint unparam:true*/
-        function renderIndex() {
-            res.render('content', {
-                bodyClass: 'manage',
-                adminNav: setSelected(adminNavbar, 'content')
-            });
-        }
-
-        when.join(
-            updateCheck(res),
-            when(renderIndex())
-            // an error here should just get logged
-        ).otherwise(errors.logError);
-    },
-    'content': function (req, res) {
-        /*jslint unparam:true*/
-        res.render('content', {
-            bodyClass: 'manage',
-            adminNav: setSelected(adminNavbar, 'content')
-        });
-    },
-    // Route: editor
-    // Path: /ghost/editor(/:id)?/
-    // Method: GET
-    'editor': function (req, res) {
-        if (req.params.id !== undefined) {
-            res.render('editor', {
-                bodyClass: 'editor',
-                adminNav: setSelected(adminNavbar, 'content')
-            });
-        } else {
-            res.render('editor', {
-                bodyClass: 'editor',
-                adminNav: setSelected(adminNavbar, 'add')
-            });
-        }
-    },
-    // Route: settings
-    // path: /ghost/settings/(*/)?
-    // Method: GET
-    'settings': function (req, res, next) {
-        // TODO: Centralise list/enumeration of settings panes, so we don't run into trouble in future.
-        var allowedSections = ['', 'general', 'user', 'apps'],
-            section = req.url.replace(/(^\/ghost\/settings[\/]*|\/$)/ig, '');
-
-        if (allowedSections.indexOf(section) < 0) {
-            return next();
-        }
-
-        res.render('settings', {
-            bodyClass: 'settings',
-            adminNav: setSelected(adminNavbar, 'settings')
-        });
-    },
-    // Route: debug
-    // path: /ghost/debug/
-    // Method: GET
-    'debug': {
-        index: function (req, res) {
-            /*jslint unparam:true*/
-            res.render('debug', {
-                bodyClass: 'settings',
-                adminNav: setSelected(adminNavbar, 'settings')
-            });
-        },
-        // frontend route for downloading a file
-        exportContent: function (req, res) {
-            /*jslint unparam:true*/
-            api.db.exportContent().then(function (exportData) {
-                // send a file to the client
-                res.set('Content-Disposition', 'attachment; filename="GhostData.json"');
-                res.json(exportData);
-            }).otherwise(function (err) {
-                var notification = {
-                    type: 'error',
-                    message: 'Your export file could not be generated.',
-                    status: 'persistent',
-                    id: 'errorexport'
-                };
-
-                errors.logError(err, 'admin.js', "Your export file could not be generated.");
-
-                return api.notifications.add(notification).then(function () {
-                    res.redirect(config().paths.subdir + '/ghost/debug');
-                });
-            });
-        }
-    },
-    // Route: upload
-    // Path: /ghost/upload/
-    // Method: POST
-    'upload': function (req, res) {
+    'uploader': function (req, res) {
         var type = req.files.uploadimage.type,
             ext = path.extname(req.files.uploadimage.name).toLowerCase(),
             store = storage.get_storage();
@@ -158,27 +64,7 @@ adminControllers = {
                 return res.send(500, e.message);
             });
     },
-    // Route: signout
-    // Path: /ghost/signout/
-    // Method: GET
-    'signout': function (req, res) {
-        req.session.destroy();
-
-        var notification = {
-            type: 'success',
-            message: 'You were successfully signed out',
-            status: 'passive',
-            id: 'successlogout'
-        };
-
-        return api.notifications.add(notification).then(function () {
-            res.redirect(config().paths.subdir + '/ghost/signin/');
-        });
-    },
-    // Route: signin
-    // Path: /ghost/signin/
-    // Method: GET
-    'signin': function (req, res) {
+    'login': function (req, res) {
         /*jslint unparam:true*/
         res.render('login', {
             bodyClass: 'ghost-login',
@@ -186,10 +72,7 @@ adminControllers = {
             adminNav: setSelected(adminNavbar, 'login')
         });
     },
-    // Route: doSignin
-    // Path: /ghost/signin/
-    // Method: POST
-    'doSignin': function (req, res) {
+    'auth': function (req, res) {
         var currentTime = process.hrtime()[0],
             remoteAddress = req.connection.remoteAddress,
             denied = '';
@@ -206,11 +89,11 @@ adminControllers = {
                 req.session.regenerate(function (err) {
                     if (!err) {
                         req.session.user = user.id;
-                        var redirect = config().paths.subdir + '/ghost/';
+                        var redirect = config.paths().subdir + '/ghost/';
                         if (req.body.redirect) {
                             redirect += decodeURIComponent(req.body.redirect);
                         }
-                        // If this IP address successfully logs in we
+                        // If this IP address successfully logins we
                         // can remove it from the array of failed login attempts.
                         loginSecurity = _.reject(loginSecurity, function (ipTime) {
                             return ipTime.ip === remoteAddress;
@@ -225,9 +108,18 @@ adminControllers = {
             res.json(401, {error: 'Slow down, there are way too many login attempts!'});
         }
     },
-    // Route: signup
-    // Path: /ghost/signup/
-    // Method: GET
+    'changepw': function (req, res) {
+        return api.users.changePassword({
+            currentUser: req.session.user,
+            oldpw: req.body.password,
+            newpw: req.body.newpassword,
+            ne2pw: req.body.ne2password
+        }).then(function () {
+            res.json(200, {msg: 'Password changed successfully'});
+        }, function (error) {
+            res.send(401, {error: error.message});
+        });
+    },
     'signup': function (req, res) {
         /*jslint unparam:true*/
         res.render('signup', {
@@ -236,10 +128,7 @@ adminControllers = {
             adminNav: setSelected(adminNavbar, 'login')
         });
     },
-    // Route: doSignup
-    // Path: /ghost/signup/
-    // Method: POST
-    'doSignup': function (req, res) {
+    'doRegister': function (req, res) {
         var name = req.body.name,
             email = req.body.email,
             password = req.body.password;
@@ -276,7 +165,7 @@ adminControllers = {
                         if (req.session.user === undefined) {
                             req.session.user = user.id;
                         }
-                        res.json(200, {redirect: config().paths.subdir + '/ghost/'});
+                        res.json(200, {redirect: config.paths().subdir + '/ghost/'});
                     }
                 });
             });
@@ -284,9 +173,6 @@ adminControllers = {
             res.json(401, {error: error.message});
         });
     },
-    // Route: forgotten
-    // Path: /ghost/forgotten/
-    // Method: GET
     'forgotten': function (req, res) {
         /*jslint unparam:true*/
         res.render('forgotten', {
@@ -295,10 +181,7 @@ adminControllers = {
             adminNav: setSelected(adminNavbar, 'login')
         });
     },
-    // Route: doForgotten
-    // Path: /ghost/forgotten/
-    // Method: POST
-    'doForgotten': function (req, res) {
+    'generateResetToken': function (req, res) {
         var email = req.body.email;
 
         api.users.generateResetToken(email).then(function (token) {
@@ -324,11 +207,12 @@ adminControllers = {
             };
 
             return api.notifications.add(notification).then(function () {
-                res.json(200, {redirect: config().paths.subdir + '/ghost/signin/'});
+                res.json(200, {redirect: config.paths().subdir + '/ghost/signin/'});
             });
 
         }, function failure(error) {
             // TODO: This is kind of sketchy, depends on magic string error.message from Bookshelf.
+            // TODO: It's debatable whether we want to just tell the user we sent the email in this case or not, we are giving away sensitive info here.
             if (error && error.message === 'EmptyResponse') {
                 error.message = "Invalid email address";
             }
@@ -336,9 +220,6 @@ adminControllers = {
             res.json(401, {error: error.message});
         });
     },
-    // Route: reset
-    // Path: /ghost/reset/:token
-    // Method: GET
     'reset': function (req, res) {
         // Validate the request token
         var token = req.params.token;
@@ -362,14 +243,11 @@ adminControllers = {
             errors.logError(err, 'admin.js', "Please check the provided token for validity and expiration.");
 
             return api.notifications.add(notification).then(function () {
-                res.redirect(config().paths.subdir + '/ghost/forgotten');
+                res.redirect(config.paths().subdir + '/ghost/forgotten');
             });
         });
     },
-    // Route: doReset
-    // Path: /ghost/reset/:token
-    // Method: POST
-    'doReset': function (req, res) {
+    'resetPassword': function (req, res) {
         var token = req.params.token,
             newPassword = req.param('newpassword'),
             ne2Password = req.param('ne2password');
@@ -383,26 +261,86 @@ adminControllers = {
             };
 
             return api.notifications.add(notification).then(function () {
-                res.json(200, {redirect: config().paths.subdir + '/ghost/signin/'});
+                res.json(200, {redirect: config.paths().subdir + '/ghost/signin/'});
             });
         }).otherwise(function (err) {
+            // TODO: Better error message if we can tell whether the passwords didn't match or something
             res.json(401, {error: err.message});
         });
     },
-    // Route: doChangePassword
-    // Path: /ghost/changepw/
-    // Method: POST
-    'doChangePassword': function (req, res) {
-        return api.users.changePassword({
-            currentUser: req.session.user,
-            oldpw: req.body.password,
-            newpw: req.body.newpassword,
-            ne2pw: req.body.ne2password
-        }).then(function () {
-            res.json(200, {msg: 'Password changed successfully'});
-        }, function (error) {
-            res.send(401, {error: error.message});
+    'logout': function (req, res) {
+        req.session.destroy();
+
+        var notification = {
+                type: 'success',
+                message: 'You were successfully signed out',
+                status: 'passive',
+                id: 'successlogout'
+            };
+
+        return api.notifications.add(notification).then(function () {
+            res.redirect(config.paths().subdir + '/ghost/signin/');
         });
+    },
+    'index': function (req, res) {
+        /*jslint unparam:true*/
+        function renderIndex() {
+            res.render('content', {
+                bodyClass: 'manage',
+                adminNav: setSelected(adminNavbar, 'content')
+            });
+        }
+
+        when.join(
+            updateCheck(res),
+            when(renderIndex())
+        // an error here should just get logged
+        ).otherwise(errors.logError);
+    },
+    'editor': function (req, res) {
+        if (req.params.id !== undefined) {
+            res.render('editor', {
+                bodyClass: 'editor',
+                adminNav: setSelected(adminNavbar, 'content')
+            });
+        } else {
+            res.render('editor', {
+                bodyClass: 'editor',
+                adminNav: setSelected(adminNavbar, 'add')
+            });
+        }
+    },
+    'content': function (req, res) {
+        /*jslint unparam:true*/
+        res.render('content', {
+            bodyClass: 'manage',
+            adminNav: setSelected(adminNavbar, 'content')
+        });
+    },
+    'settings': function (req, res, next) {
+
+        // TODO: Centralise list/enumeration of settings panes, so we don't
+        // run into trouble in future.
+        var allowedSections = ['', 'general', 'user'],
+            section = req.url.replace(/(^\/ghost\/settings[\/]*|\/$)/ig, '');
+
+        if (allowedSections.indexOf(section) < 0) {
+            return next();
+        }
+
+        res.render('settings', {
+            bodyClass: 'settings',
+            adminNav: setSelected(adminNavbar, 'settings')
+        });
+    },
+    'debug': { /* ugly temporary stuff for managing the app before it's properly finished */
+        index: function (req, res) {
+            /*jslint unparam:true*/
+            res.render('debug', {
+                bodyClass: 'settings',
+                adminNav: setSelected(adminNavbar, 'settings')
+            });
+        }
     }
 };
 

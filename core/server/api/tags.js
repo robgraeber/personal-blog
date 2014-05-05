@@ -3,14 +3,12 @@ var dataProvider = require('../models'),
 
 
 tags = {
-    // #### Browse
+    // #### All
 
     // **takes:** Nothing yet
-    browse: function browse() {
+    all: function browse() {
         // **returns:** a promise for all tags which have previously been used in a json object
-        return dataProvider.Tag.findAll().then(function (result) {
-            return result.toJSON();
-        });
+        return dataProvider.Tag.findAll();
     }
 };
 

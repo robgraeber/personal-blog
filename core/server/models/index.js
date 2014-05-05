@@ -1,6 +1,5 @@
 var migrations = require('../data/migration'),
-    _          = require('lodash'),
-    when   = require('when');
+    _          = require('underscore');
 
 module.exports = {
     Post: require('./post').Post,
@@ -15,20 +14,25 @@ module.exports = {
     init: function () {
         return migrations.init();
     },
+    reset: function () {
+        return migrations.reset().then(function () {
+            return migrations.init();
+        });
+    },
     // ### deleteAllContent
     // Delete all content from the database (posts, tags, tags_posts)
     deleteAllContent: function () {
         var self = this;
 
         return self.Post.browse().then(function (posts) {
-            return when.all(_.map(posts.toJSON(), function (post) {
-                return self.Post.destroy(post.id);
-            }));
+            _.each(posts.toJSON(), function (post) {
+                self.Post.destroy(post.id);
+            });
         }).then(function () {
-            return self.Tag.browse().then(function (tags) {
-                return when.all(_.map(tags.toJSON(), function (tag) {
-                    return self.Tag.destroy(tag.id);
-                }));
+            self.Tag.browse().then(function (tags) {
+                _.each(tags.toJSON(), function (tag) {
+                    self.Tag.destroy(tag.id);
+                });
             });
         });
     }

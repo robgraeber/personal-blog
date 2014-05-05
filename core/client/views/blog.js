@@ -1,4 +1,4 @@
-/*global window, Ghost, $, _, Backbone, NProgress */
+/*global window, document, Ghost, $, _, Backbone, JST, NProgress */
 (function () {
     "use strict";
 
@@ -10,7 +10,7 @@
     // ----------
     Ghost.Views.Blog = Ghost.View.extend({
         initialize: function (options) {
-            /*jshint unused:false*/
+            /*jslint unparam:true*/
             var self = this,
                 finishProgress = function () {
                     NProgress.done();
@@ -108,7 +108,7 @@
                     staticPages: 'all'
                 }
             }).then(function onSuccess(response) {
-                /*jshint unused:false*/
+                /*jslint unparam:true*/
                 self.render();
                 self.isLoading = false;
             }, function onError(e) {
@@ -228,7 +228,6 @@
         },
 
         toggleFeatured: function (e) {
-            e.preventDefault();
             var self = this,
                 featured = !self.model.get('featured'),
                 featuredEl = $(e.currentTarget),
@@ -239,7 +238,6 @@
             }, {
                 success : function () {
                     featuredEl.removeClass("featured unfeatured").addClass(featured ? "featured" : "unfeatured");
-                    Ghost.notifications.clearEverything();
                     Ghost.notifications.addItem({
                         type: 'success',
                         message: "Post successfully marked as " + (featured ? "featured" : "not featured") + ".",
@@ -247,7 +245,7 @@
                     });
                 },
                 error : function (model, xhr) {
-                    /*jshint unused:false*/
+                    /*jslint unparam:true*/
                     Ghost.notifications.addItem({
                         type: 'error',
                         message: Ghost.Views.Utils.getRequestErrorMessage(xhr),

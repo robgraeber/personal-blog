@@ -1,5 +1,5 @@
 var when               = require('when'),
-    _                  = require('lodash'),
+    _                  = require('underscore'),
     dataProvider       = require('../models'),
     settings           = require('./settings'),
     ONE_DAY            = 86400000,
@@ -8,8 +8,8 @@ var when               = require('when'),
 
 // ## Users
 users = {
-
     // #### Browse
+
     // **takes:** options object
     browse: function browse(options) {
         // **returns:** a promise for a collection of users in a json object
@@ -31,6 +31,7 @@ users = {
     },
 
     // #### Read
+
     // **takes:** an identifier (id or slug?)
     read: function read(args) {
         // **returns:** a promise for a single user in a json object
@@ -44,11 +45,12 @@ users = {
                 return omitted;
             }
 
-            return when.reject({code: 404, message: 'User not found'});
+            return when.reject({errorCode: 404, message: 'User not found'});
         });
     },
 
     // #### Edit
+
     // **takes:** a json object representing a user
     edit: function edit(userData) {
         // **returns:** a promise for the resulting user in a json object
@@ -58,11 +60,12 @@ users = {
                 var omitted = _.omit(result.toJSON(), filteredAttributes);
                 return omitted;
             }
-            return when.reject({code: 404, message: 'User not found'});
+            return when.reject({errorCode: 404, message: 'User not found'});
         });
     },
 
     // #### Add
+
     // **takes:** a json object representing a user
     add: function add(userData) {
 
@@ -80,6 +83,7 @@ users = {
     },
 
     // #### Change Password
+
     // **takes:** a json object representing a user
     changePassword: function changePassword(userData) {
         // **returns:** on success, returns a promise for the resulting user in a json object
@@ -87,6 +91,7 @@ users = {
     },
 
     generateResetToken: function generateResetToken(email) {
+        // TODO: Do we want to be able to pass this in?
         var expires = Date.now() + ONE_DAY;
         return settings.read('dbHash').then(function (dbHash) {
             return dataProvider.User.generateResetToken(email, expires, dbHash);

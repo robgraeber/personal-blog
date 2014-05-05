@@ -1,4 +1,4 @@
-/*global Ghost, $ */
+/*global window, document, Ghost, $, _, Backbone, JST */
 (function () {
     "use strict";
 
@@ -25,7 +25,7 @@
                 },
                 dataType: 'json',
                 add: function (e, data) {
-                    /*jshint unused:false*/
+                    /*jslint unparam:true*/
 
                     // Bind the upload data to the view, so it is
                     // available to the click handler, and enable the
@@ -34,7 +34,7 @@
                     data.context = view.uploadButton.removeProp('disabled');
                 },
                 done: function (e, data) {
-                    /*jshint unused:false*/
+                    /*jslint unparam:true*/
                     $('#startupload').text('Import');
                     if (!data.result) {
                         throw new Error('No response received from server.');
@@ -132,15 +132,13 @@
                                         }
                                     });
                                 },
-                                text: "Delete",
-                                buttonClass: "button-delete"
+                                text: "Yes"
                             },
                             reject: {
                                 func: function () {
                                     return true;
                                 },
-                                text: "Cancel",
-                                buttonClass: "button"
+                                text: "No"
                             }
                         },
                         type: "action",

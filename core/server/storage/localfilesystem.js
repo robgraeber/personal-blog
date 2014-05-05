@@ -1,14 +1,14 @@
 // # Local File System Image Storage module
 // The (default) module for storing images, using the local file system
 
-var _       = require('lodash'),
+var _       = require('underscore'),
     express = require('express'),
     fs      = require('fs-extra'),
     nodefn  = require('when/node/function'),
     path    = require('path'),
     when    = require('when'),
     errors  = require('../errorHandling'),
-    config  = require('../config'),
+    configPaths = require('../config/paths'),
     baseStore   = require('./base'),
 
     localFileStore;
@@ -20,7 +20,7 @@ localFileStore = _.extend(baseStore, {
     // - returns a promise which ultimately returns the full url to the uploaded image
     'save': function (image) {
         var saved = when.defer(),
-            targetDir = this.getTargetDir(config().paths.imagesPath),
+            targetDir = this.getTargetDir(configPaths().imagesPath),
             targetFilename;
 
         this.getUniqueFileName(this, image, targetDir).then(function (filename) {
@@ -33,7 +33,7 @@ localFileStore = _.extend(baseStore, {
         }).then(function () {
             // The src for the image must be in URI format, not a file system path, which in Windows uses \
             // For local file system storage can use relative path so add a slash
-            var fullUrl = (config().paths.subdir + '/' + path.relative(config().paths.appRoot, targetFilename)).replace(new RegExp('\\' + path.sep, 'g'), '/');
+            var fullUrl = (configPaths().subdir + '/' + path.relative(configPaths().appRoot, targetFilename)).replace(new RegExp('\\' + path.sep, 'g'), '/');
             return saved.resolve(fullUrl);
         }).otherwise(function (e) {
             errors.logError(e);
@@ -60,7 +60,7 @@ localFileStore = _.extend(baseStore, {
             ONE_YEAR_MS = 365 * 24 * ONE_HOUR_MS;
 
         // For some reason send divides the max age number by 1000
-        return express['static'](config().paths.imagesPath, {maxAge: ONE_YEAR_MS});
+        return express['static'](configPaths().imagesPath, {maxAge: ONE_YEAR_MS});
     }
 });
 

@@ -1,4 +1,4 @@
-/*global window, Ghost, $, validator */
+/*global window, document, Ghost, $, _, Backbone, JST */
 (function () {
     "use strict";
 
@@ -25,19 +25,14 @@
             event.preventDefault();
             var email = this.$el.find('.email').val(),
                 password = this.$el.find('.password').val(),
-                redirect = Ghost.Views.Utils.getUrlVariables().r,
-                validationErrors = [];
+                redirect = Ghost.Views.Utils.getUrlVariables().r;
 
-            if (!validator.isEmail(email)) {
-                validationErrors.push("Invalid Email");
-            }
+            Ghost.Validate._errors = [];
+            Ghost.Validate.check(email).isEmail();
+            Ghost.Validate.check(password, "Please enter a password").len(0);
 
-            if (!validator.isLength(password, 0)) {
-                validationErrors.push("Please enter a password");
-            }
-
-            if (validationErrors.length) {
-                validator.handleErrors(validationErrors);
+            if (Ghost.Validate._errors.length > 0) {
+                Ghost.Validate.handleErrors();
             } else {
                 $.ajax({
                     url: Ghost.paths.subdir + '/ghost/signin/',
@@ -93,28 +88,18 @@
             event.preventDefault();
             var name = this.$('.name').val(),
                 email = this.$('.email').val(),
-                password = this.$('.password').val(),
-                validationErrors = [],
-                self = this;
+                password = this.$('.password').val();
 
-            if (!validator.isLength(name, 1)) {
-                validationErrors.push("Please enter a name.");
-            }
+            // This is needed due to how error handling is done. If this is not here, there will not be a time
+            // when there is no error.
+            Ghost.Validate._errors = [];
+            Ghost.Validate.check(name, "Please enter a name").len(1);
+            Ghost.Validate.check(email, "Please enter a correct email address").isEmail();
+            Ghost.Validate.check(password, "Your password is not long enough. It must be at least 8 characters long.").len(8);
+            Ghost.Validate.check(this.submitted, "Ghost is signing you up. Please wait...").equals("no");
 
-            if (!validator.isEmail(email)) {
-                validationErrors.push("Please enter a correct email address.");
-            }
-
-            if (!validator.isLength(password, 0)) {
-                validationErrors.push("Please enter a password");
-            }
-
-            if (!validator.equals(this.submitted, "no")) {
-                validationErrors.push("Ghost is signing you up. Please wait...");
-            }
-
-            if (validationErrors.length) {
-                validator.handleErrors(validationErrors);
+            if (Ghost.Validate._errors.length > 0) {
+                Ghost.Validate.handleErrors();
             } else {
                 this.submitted = "yes";
                 $.ajax({
@@ -132,7 +117,7 @@
                         window.location.href = msg.redirect;
                     },
                     error: function (xhr) {
-                        self.submitted = "no";
+                        this.submitted = "no";
                         Ghost.notifications.clearEverything();
                         Ghost.notifications.addItem({
                             type: 'error',
@@ -167,15 +152,13 @@
         submitHandler: function (event) {
             event.preventDefault();
 
-            var email = this.$el.find('.email').val(),
-                validationErrors = [];
+            var email = this.$el.find('.email').val();
 
-            if (!validator.isEmail(email)) {
-                validationErrors.push("Please enter a correct email address.");
-            }
+            Ghost.Validate._errors = [];
+            Ghost.Validate.check(email).isEmail();
 
-            if (validationErrors.length) {
-                validator.handleErrors(validationErrors);
+            if (Ghost.Validate._errors.length > 0) {
+                Ghost.Validate.handleErrors();
             } else {
                 $.ajax({
                     url: Ghost.paths.subdir + '/ghost/forgotten/',

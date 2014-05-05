@@ -1,4 +1,4 @@
-/*global Ghost, _, Backbone */
+/*global window, document, Ghost, $, _, Backbone */
 (function () {
     'use strict';
 
@@ -16,6 +16,7 @@
                 resp.draft = resp.status === 'draft';
             }
             if (resp.tags) {
+                // TODO: parse tags into it's own collection on the model (this.tags)
                 return resp;
             }
             return resp;

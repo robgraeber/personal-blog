@@ -1,5 +1,5 @@
 var when          = require('when'),
-    _             = require('lodash'),
+    _             = require('underscore'),
 
     defaults;
 
@@ -25,14 +25,9 @@ var Filters = function () {
 
 // Register a new filter callback function
 Filters.prototype.registerFilter = function (name, priority, fn) {
-    // Carry the priority optional parameter to a default of 5
+    // Curry the priority optional parameter to a default of 5
     if (_.isFunction(priority)) {
         fn = priority;
-        priority = null;
-    }
-
-    // Null priority should be set to default
-    if (priority === null) {
         priority = defaults.filterPriority;
     }
 
@@ -43,7 +38,7 @@ Filters.prototype.registerFilter = function (name, priority, fn) {
 };
 
 // Unregister a filter callback function
-Filters.prototype.deregisterFilter = function (name, priority, fn) {
+Filters.prototype.unregisterFilter = function (name, priority, fn) {
     // Curry the priority optional parameter to a default of 5
     if (_.isFunction(priority)) {
         fn = priority;

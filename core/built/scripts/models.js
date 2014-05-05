@@ -1,4 +1,4 @@
-/*global Ghost, _, Backbone, NProgress */
+/*global window, document, setTimeout, Ghost, $, _, Backbone, JST, shortcut, NProgress */
 
 (function () {
     "use strict";
@@ -10,10 +10,8 @@
         if (options !== undefined && _.isObject(options)) {
             NProgress.start();
 
-            /*jshint validthis:true */
             var self = this,
                 oldSuccess = options.success;
-            /*jshint validthis:false */
 
             options.success = function () {
                 NProgress.done();
@@ -21,7 +19,6 @@
             };
         }
 
-        /*jshint validthis:true */
         return Backbone.sync.call(this, method, model, options);
     }
 
@@ -33,8 +30,7 @@
         sync: wrapSync
     });
 }());
-
-/*global Ghost, _, Backbone */
+/*global window, document, Ghost, $, _, Backbone */
 (function () {
     'use strict';
 
@@ -52,6 +48,7 @@
                 resp.draft = resp.status === 'draft';
             }
             if (resp.tags) {
+                // TODO: parse tags into it's own collection on the model (this.tags)
                 return resp;
             }
             return resp;
@@ -104,18 +101,18 @@
 
 }());
 
-/*global Ghost */
+/*global window, document, Ghost, $, _, Backbone */
 (function () {
     'use strict';
     //id:0 is used to issue PUT requests
     Ghost.Models.Settings = Ghost.ProgressModel.extend({
-        url: Ghost.paths.apiRoot + '/settings/?type=blog,theme,app',
+        url: Ghost.paths.apiRoot + '/settings/?type=blog,theme',
         id: '0'
     });
 
 }());
 
-/*global Ghost */
+/*global window, document, Ghost, $, _, Backbone */
 (function () {
     'use strict';
 
@@ -124,7 +121,7 @@
     });
 }());
 
-/*global Ghost, Backbone */
+/*global window, document, Ghost, $, _, Backbone */
 (function () {
     'use strict';
 
@@ -173,7 +170,7 @@
 
 }());
 
-/*global Ghost */
+/*global window, document, Ghost, $, _, Backbone */
 (function () {
     'use strict';
 
@@ -187,7 +184,7 @@
 
 }());
 
-/*global Ghost */
+/*global window, document, Ghost, $, _, Backbone */
 (function () {
     'use strict';
 

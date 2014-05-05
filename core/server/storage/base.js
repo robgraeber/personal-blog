@@ -1,4 +1,5 @@
-var moment  = require('moment'),
+var _       = require('underscore'),
+    moment  = require('moment'),
     path    = require('path'),
     when    = require('when'),
     baseStore;
@@ -41,7 +42,7 @@ baseStore = {
     'getUniqueFileName': function (store, image, targetDir) {
         var done = when.defer(),
             ext = path.extname(image.name),
-            name = path.basename(image.name, ext).replace(/[\W]/gi, '-');
+            name = path.basename(image.name, ext).replace(/[\W]/gi, '_');
 
         this.generateUnique(store, targetDir, name, ext, 0, done);
 

@@ -1,4 +1,4 @@
-/*globals window, $, _, Backbone, validator */
+/*globals window, $, _, Backbone, Validator */
 (function () {
     'use strict';
 
@@ -17,6 +17,7 @@
         Views       : {},
         Collections : {},
         Models      : {},
+        Validate    : new Validator(),
 
         paths: ghostPaths(),
 
@@ -61,16 +62,21 @@
         });
     };
 
-    validator.handleErrors = function (errors) {
+    Ghost.Validate.error = function (object) {
+        this._errors.push(object);
+
+        return this;
+    };
+
+    Ghost.Validate.handleErrors = function () {
         Ghost.notifications.clearEverything();
-        _.each(errors, function (errorObj) {
+        _.each(Ghost.Validate._errors, function (errorObj) {
 
             Ghost.notifications.addItem({
                 type: 'error',
                 message: errorObj.message || errorObj,
                 status: 'passive'
             });
-
             if (errorObj.hasOwnProperty('el')) {
                 errorObj.el.addClass('input-error');
             }

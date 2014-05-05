@@ -1,4 +1,4 @@
-var _               = require('lodash'),
+var _               = require('underscore'),
     when            = require('when'),
     errors          = require('../../errorHandling'),
     client          = require('../../models/base').client,

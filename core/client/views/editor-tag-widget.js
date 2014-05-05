@@ -1,6 +1,6 @@
 // The Tag UI area associated with a post
 
-/*global window, document, setTimeout, $, _, Ghost */
+/*global window, document, setTimeout, $, _, Backbone, Ghost */
 
 (function () {
     "use strict";
@@ -45,7 +45,7 @@
 
             if (tags) {
                 _.forEach(tags, function (tag) {
-                    var $tag = $('<span class="tag" data-tag-id="' + tag.id + '">' + _.escape(tag.name) + '</span>');
+                    var $tag = $('<span class="tag" data-tag-id="' + tag.id + '">' + tag.name + '</span>');
                     $tags.append($tag);
                     $("[data-tag-id=" + tag.id + "]")[0].scrollIntoView(true);
                 });
@@ -106,11 +106,8 @@
                 styles = {
                     left: $target.position().left
                 },
-                // Limit the suggestions number
-                maxSuggestions = 5,
-                // Escape regex special characters
-                escapedTerm = searchTerm.replace(/[\-\/\\\^$*+?.()|\[\]{}]/g, '\\$&'),
-                regexTerm = escapedTerm.replace(/(\s+)/g, "(<[^>]+>)*$1(<[^>]+>)*"),
+                maxSuggestions = 5, // Limit the suggestions number
+                regexTerm = searchTerm.replace(/(\s+)/g, "(<[^>]+>)*$1(<[^>]+>)*"),
                 regexPattern = new RegExp("(" + regexTerm + ")", "i");
 
             this.$suggestions.css(styles);
@@ -124,15 +121,11 @@
                 var highlightedName,
                     suggestionHTML;
 
-                highlightedName = matchingTag.name.replace(regexPattern, function (match, p1) {
-                    return "<mark>" + _.escape(p1) + "</mark>";
-                });
+                highlightedName = matchingTag.name.replace(regexPattern, "<mark>$1</mark>");
                 /*jslint regexp: true */ // - would like to remove this
-                highlightedName = highlightedName.replace(/(<mark>[^<>]*)((<[^>]+>)+)([^<>]*<\/mark>)/, function (match, p1, p2, p3, p4) {
-                    return _.escape(p1) + '</mark>' + _.escape(p2) + '<mark>' + _.escape(p4);
-                });
-                
-                suggestionHTML = "<li data-tag-id='" + matchingTag.id + "' data-tag-name='" + _.escape(matchingTag.name) + "'><a href='#'>" + highlightedName + "</a></li>";
+                highlightedName = highlightedName.replace(/(<mark>[^<>]*)((<[^>]+>)+)([^<>]*<\/mark>)/, "$1</mark>$2<mark>$4");
+
+                suggestionHTML = "<li data-tag-id='" + matchingTag.id + "' data-tag-name='" + matchingTag.name + "'><a href='#'>" + highlightedName + "</a></li>";
                 this.$suggestions.append(suggestionHTML);
             }, this);
         },
@@ -140,6 +133,12 @@
         handleKeyup: function (e) {
             var $target = $(e.currentTarget),
                 searchTerm = $.trim($target.val());
+
+            if (searchTerm) {
+                this.showSuggestions($target, searchTerm);
+            } else {
+                this.$suggestions.hide();
+            }
 
             if (e.keyCode === this.keys.UP) {
                 e.preventDefault();
@@ -161,12 +160,6 @@
                 }
             } else if (e.keyCode === this.keys.ESC) {
                 this.$suggestions.hide();
-            } else {
-                if (searchTerm) {
-                    this.showSuggestions($target, searchTerm);
-                } else {
-                    this.$suggestions.hide();
-                }
             }
 
             if (e.keyCode === this.keys.UP || e.keyCode === this.keys.DOWN) {
@@ -192,8 +185,7 @@
                 searchTerm = $.trim($target.val()),
                 tag,
                 $selectedSuggestion,
-                isComma = ",".localeCompare(String.fromCharCode(e.keyCode || e.charCode)) === 0,
-                hasAlreadyBeenAdded;
+                isComma = ",".localeCompare(String.fromCharCode(e.keyCode || e.charCode)) === 0;
 
             // use localeCompare in case of international keyboard layout
             if ((e.keyCode === this.keys.ENTER || isComma) && searchTerm) {
@@ -202,19 +194,16 @@
 
                 $selectedSuggestion = this.$suggestions.children(".selected");
                 if (this.$suggestions.is(":visible") && $selectedSuggestion.length !== 0) {
-                    tag = {id: $selectedSuggestion.data('tag-id'), name: _.unescape($selectedSuggestion.data('tag-name'))};
-                    hasAlreadyBeenAdded = this.hasTagBeenAdded(tag.name);
-                    if (!hasAlreadyBeenAdded) {
+
+                    if ($('.tag:containsExact("' + $selectedSuggestion.data('tag-name') + '")').length === 0) {
+                        tag = {id: $selectedSuggestion.data('tag-id'), name: $selectedSuggestion.data('tag-name')};
                         this.addTag(tag);
                     }
                 } else {
                     if (isComma) {
-                        // Remove comma from string if comma is used to submit.
                         searchTerm = searchTerm.replace(/,/g, "");
-                    }
-
-                    hasAlreadyBeenAdded = this.hasTagBeenAdded(searchTerm);
-                    if (!hasAlreadyBeenAdded) {
+                    }  // Remove comma from string if comma is used to submit.
+                    if ($('.tag:containsExact("' + searchTerm + '")').length === 0) {
                         this.addTag({id: null, name: searchTerm});
                     }
                 }
@@ -227,9 +216,13 @@
         completeCurrentTag: function () {
             var $target = this.$('.tag-input'),
                 tagName = $target.val(),
+                usedTagNames,
                 hasAlreadyBeenAdded;
 
-            hasAlreadyBeenAdded = this.hasTagBeenAdded(tagName);
+            usedTagNames = _.map(this.model.get('tags'), function (tag) {
+                return tag.name.toUpperCase();
+            });
+            hasAlreadyBeenAdded = usedTagNames.indexOf(tagName.toUpperCase()) !== -1;
 
             if (tagName.length > 0 && !hasAlreadyBeenAdded) {
                 this.addTag({id: null, name: tagName});
@@ -239,7 +232,7 @@
         handleSuggestionClick: function (e) {
             var $target = $(e.currentTarget);
             if (e) { e.preventDefault(); }
-            this.addTag({id: $target.data('tag-id'), name: _.unescape($target.data('tag-name'))});
+            this.addTag({id: $target.data('tag-id'), name: $target.data('tag-name')});
         },
 
         handleTagClick: function (e) {
@@ -274,8 +267,9 @@
 
                 tagNameMatches = tag.name.toUpperCase().indexOf(searchTerm) !== -1;
 
-                hasAlreadyBeenAdded = self.hasTagBeenAdded(tag.name);
-
+                hasAlreadyBeenAdded = _.some(self.model.get('tags'), function (usedTag) {
+                    return tag.name.toUpperCase() === usedTag.name.toUpperCase();
+                });
                 return tagNameMatches && !hasAlreadyBeenAdded;
             });
 
@@ -283,7 +277,7 @@
         },
 
         addTag: function (tag) {
-            var $tag = $('<span class="tag" data-tag-id="' + tag.id + '">' + _.escape(tag.name) + '</span>');
+            var $tag = $('<span class="tag" data-tag-id="' + tag.id + '">' + tag.name + '</span>');
             this.$('.tags').append($tag);
             $(".tag").last()[0].scrollIntoView(true);
             window.scrollTo(0, 1);
@@ -291,12 +285,6 @@
 
             this.$('.tag-input').val('').focus();
             this.$suggestions.hide();
-        },
-
-        hasTagBeenAdded: function (tagName) {
-            return _.some(this.model.get('tags'), function (usedTag) {
-                return tagName.toUpperCase() === usedTag.name.toUpperCase();
-            });
         }
     });
 

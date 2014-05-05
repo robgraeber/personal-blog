@@ -1,26 +1,26 @@
 /*jslint regexp: true */
-var _           = require('lodash'),
+var _           = require('underscore'),
     colors      = require('colors'),
-    config      = require('./config'),
+    fs          = require('fs'),
+    configPaths = require('./config/paths'),
     path        = require('path'),
     when        = require('when'),
     hbs         = require('express-hbs'),
     errors,
 
     // Paths for views
-    defaultErrorTemplatePath = path.resolve(config().paths.adminViews, 'user-error.hbs'),
-    userErrorTemplatePath    = path.resolve(config().paths.themePath, 'error.hbs'),
-    userErrorTemplateExists   = false;
+    defaultErrorTemplatePath = path.resolve(configPaths().adminViews, 'user-error.hbs'),
+    userErrorTemplatePath    = path.resolve(configPaths().themePath, 'error.hbs'),
+    userErrorTemplateExists   = false,
 
-// This is not useful but required for jshint
-colors.setTheme({silly: 'rainbow'});
+    ONE_HOUR_S  = 60 * 60;
 
 /**
  * Basic error handling helpers
  */
 errors = {
     updateActiveTheme: function (activeTheme, hasErrorTemplate) {
-        userErrorTemplatePath = path.resolve(config().paths.themePath, activeTheme, 'error.hbs');
+        userErrorTemplatePath = path.resolve(configPaths().themePath, activeTheme, 'error.hbs');
         userErrorTemplateExists = hasErrorTemplate;
     },
 
@@ -47,27 +47,23 @@ errors = {
             process.env.NODE_ENV === 'staging' ||
             process.env.NODE_ENV === 'production')) {
 
-            var msgs = ['\nWarning:'.yellow, warn.yellow, '\n'];
+            console.log('\nWarning:'.yellow, warn.yellow);
 
             if (context) {
-                msgs.push(context.white, '\n');
+                console.log(context.white);
             }
 
             if (help) {
-                msgs.push(help.green);
+                console.log(help.green);
             }
 
             // add a new line
-            msgs.push('\n');
-
-            console.log.apply(console, msgs);
+            console.log('');
         }
     },
 
     logError: function (err, context, help) {
-        var stack = err ? err.stack : null,
-            msgs;
-
+        var stack = err ? err.stack : null;
         if (err) {
             err = err.message || err || 'An unknown error occurred.';
         } else {
@@ -79,24 +75,22 @@ errors = {
             process.env.NODE_ENV === 'staging' ||
             process.env.NODE_ENV === 'production')) {
 
-            msgs = ['\nERROR:'.red, err.red, '\n'];
+            console.error('\nERROR:'.red, err.red);
 
             if (context) {
-                msgs.push(context.white, '\n');
+                console.error(context.white);
             }
 
             if (help) {
-                msgs.push(help.green);
+                console.error(help.green);
             }
 
             // add a new line
-            msgs.push('\n');
+            console.error('');
 
             if (stack) {
-                msgs.push(stack, '\n');
+                console.error(stack, '\n');
             }
-
-            console.error.apply(console, msgs);
         }
     },
 
@@ -113,7 +107,7 @@ errors = {
     },
 
     logErrorWithRedirect: function (msg, context, help, redirectTo, req, res) {
-        /*jshint unused:false*/
+        /*jslint unparam:true*/
         var self = this;
 
         return function () {
@@ -126,7 +120,7 @@ errors = {
     },
 
     renderErrorPage: function (code, err, req, res, next) {
-        /*jshint unused:false*/
+        /*jslint unparam:true*/
 
         var self = this;
 
@@ -205,8 +199,8 @@ errors = {
     error404: function (req, res, next) {
         var message = res.isAdmin && req.session.user ? "No Ghost Found" : "Page Not Found";
 
-        // do not cache 404 error
-        res.set({'Cache-Control': 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'});
+        // 404 errors should be briefly cached
+        res.set({'Cache-Control': 'public, max-age=' + ONE_HOUR_S});
         if (req.method === 'GET') {
             this.renderErrorPage(404, message, req, res, next);
         } else {
@@ -233,16 +227,16 @@ errors = {
     }
 };
 
-// Ensure our 'this' context for methods and preserve method arity by
-// using Function#bind for expressjs
-_.each([
+// Ensure our 'this' context in the functions
+_.bindAll(
+    errors,
+    'throwError',
+    'logError',
     'logAndThrowError',
     'logErrorWithRedirect',
     'renderErrorPage',
     'error404',
     'error500'
-], function (funcName) {
-    errors[funcName] = errors[funcName].bind(errors);
-});
+);
 
 module.exports = errors;
