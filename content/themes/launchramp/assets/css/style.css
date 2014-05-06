@@ -1586,10 +1586,10 @@ input[type="submit"],
   text-align: center; }
   @media only screen and (min-width: 481px) {
     .id-header {
-      padding: 60px 0 60px; } }
+      padding: 50px 0 60px; } }
   @media only screen and (min-width: 769px) {
     .id-header {
-      padding: 110px 0 100px; } }
+      padding: 100px 0 100px; } }
   .id-header a {
     text-decoration: none; }
   .id-header.blog-cover .id-site-title, .id-header.pagination-wrapper .id-site-title,
