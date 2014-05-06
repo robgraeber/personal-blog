@@ -1614,7 +1614,17 @@ input[type="submit"],
   text-transform: uppercase;
   font-weight: 700;
   line-height: 1;
-  font-size: 4.5em; }
+  font-size: 3.5em; }
+  @media only screen and (min-width: 481px) {
+    .id-site-title {
+      font-size:4.0em;
+    }
+  }
+  @media only screen and (min-width: 769px) {
+    .id-site-title {
+      font-size:4.5em;
+    }
+  }
   .id-site-title a {
     color: black; }
     .id-site-title a:focus, .id-site-title a:hover {

@@ -109,7 +109,7 @@
         }
 
         // Parallax Header
-        // if (!is_touch_device()) {
+        if (!is_touch_device()) {
           var parallaxRatio = 0.35;
           $(window).on('scroll', function() {
             var distance = $(window).scrollTop();
@@ -117,10 +117,11 @@
               'background-position': 'left ' + (distance * parallaxRatio -60) + 'px'
             });
           });
-          $('.blog-cover').css({
-              'background-position': 'left -60px'
-            });
-        // }
+        }
+        $('.blog-cover').css({
+         'background-position': 'left -60px'
+        });
+        
 
         // FitVids
         $('.entry-content').fitVids();
