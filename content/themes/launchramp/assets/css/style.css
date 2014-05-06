@@ -1582,14 +1582,14 @@ input[type="submit"],
 /*-----------------------------------------------------------------------------------*/
 .id-header {
   overflow: hidden;
-  padding: 80px 0 40px;
+  padding: 50px 0 40px;
   text-align: center; }
   @media only screen and (min-width: 481px) {
     .id-header {
-      padding: 50px 0 60px; } }
+      padding: 70px 0 60px; } }
   @media only screen and (min-width: 769px) {
     .id-header {
-      padding: 100px 0 100px; } }
+      padding: 100px 0 80px; } }
   .id-header a {
     text-decoration: none; }
   .id-header.blog-cover .id-site-title, .id-header.pagination-wrapper .id-site-title,
@@ -1624,7 +1624,7 @@ input[type="submit"],
 
 .id-site-description {
   margin-top: .5em;
-  font-size: 1em; }
+  font-size: 1.25em; }
   @media only screen and (min-width: 481px) {
     .id-site-description {
       font-size: 1.25em; } }
@@ -1642,14 +1642,14 @@ input[type="submit"],
   left: 0;
   z-index: 1000;
   width: 100%;
-  height: 40px;
+  height: 50px;
   background-color: black; }
   @media only screen and (min-width: 481px) {
     .id-nav {
-      height: 50px; } }
+      height: 60px; } }
   @media only screen and (min-width: 769px) {
     .id-nav {
-      height: 60px; } }
+      height: 65px; } }
 
 .id-nav-title,
 .id-nav-trigger {
