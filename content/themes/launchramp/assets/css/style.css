@@ -165,8 +165,8 @@ body {
       font-size: 19px;
       line-height: 1.64706; } }
 
-.inner, .id-site-logo-link, .id-site-description, .without-blog-logo .id-site-title, .id-nav-title, .id-main-menu, .entry-inner, .pagination, .id-footer-links, .id-site-copyright {
-  display: block;
+.inner, .id-site-logo-link, .id-site-description, .id-nav-title, .id-main-menu, .entry-inner, .pagination, .id-footer-links, .id-site-copyright {
+  display: block; 
   clear: both;
   margin: 0 auto;
   padding: 0 20px;
@@ -1586,10 +1586,10 @@ input[type="submit"],
   text-align: center; }
   @media only screen and (min-width: 481px) {
     .id-header {
-      padding: 110px 0 60px; } }
+      padding: 60px 0 60px; } }
   @media only screen and (min-width: 769px) {
     .id-header {
-      padding: 160px 0 100px; } }
+      padding: 110px 0 100px; } }
   .id-header a {
     text-decoration: none; }
   .id-header.blog-cover .id-site-title, .id-header.pagination-wrapper .id-site-title,
@@ -1610,7 +1610,7 @@ input[type="submit"],
 
 .id-site-title {
   overflow: hidden;
-  margin: 0;
+  margin: 0 auto;
   text-transform: uppercase;
   font-weight: 700;
   line-height: 1;
@@ -1636,7 +1636,7 @@ input[type="submit"],
 /* Navigation
 /*-----------------------------------------------------------------------------------*/
 .id-nav {
-  position: fixed;
+/*  position: fixed;*/
   top: 0;
   right: 0;
   left: 0;

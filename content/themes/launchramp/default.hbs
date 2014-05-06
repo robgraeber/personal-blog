@@ -35,7 +35,8 @@
     {{ghost_head}}
   </head>
   <body class="{{body_class}}">
-
+    <nav id="nav" class="id-nav" role="navigation">
+        </nav>
     <div id="launchramp" class="hue-default">
 
       <header id="header" class="id-header{{#if @blog.logo}} with-blog-logo{{else}} without-blog-logo{{/if}}{{#if @blog.cover}} blog-cover{{/if}}" role="banner">
@@ -56,8 +57,7 @@
           {{/if}}
         </div>
 
-        <nav id="nav" class="id-nav" role="navigation">
-        </nav>
+        
 
       </header>
 
@@ -82,7 +82,7 @@
 
     {{#unless @blog.logo}}
       <script src="//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
-      <script src="{{asset "js/bigtext.js"}}"></script>
+      <!-- <script src="{{asset "js/bigtext.js"}}"></script> -->
     {{/unless}}
     <script src="{{asset "js/fitvids.js"}}"></script>
     <script>
@@ -109,15 +109,15 @@
         }
 
         // Parallax Header
-        if (!is_touch_device()) {
+        // if (!is_touch_device()) {
           var parallaxRatio = 0.35;
           $(window).on('scroll', function() {
             var distance = $(window).scrollTop();
             $('.blog-cover').css({
-              'background-position': 'left ' + (distance * parallaxRatio) + 'px'
+              'background-position': 'left ' + (distance * parallaxRatio -60) + 'px'
             });
           });
-        }
+        // }
 
         // FitVids
         $('.entry-content').fitVids();
