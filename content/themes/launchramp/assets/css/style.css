@@ -1838,11 +1838,11 @@ input[type="submit"],
   width: 100%; }
 
 .more-link {
-  -webkit-transition: all 100ms linear;
-  -moz-transition: all 100ms linear;
-  -ms-transition: all 100ms linear;
-  -o-transition: all 100ms linear;
-  transition: all 100ms linear;
+  -webkit-transition: all 75ms linear;
+  -moz-transition: all 75ms linear;
+  -ms-transition: all 75ms linear;
+  -o-transition: all 75ms linear;
+  transition: all 75ms linear;
   display: block;
   margin-top: 1em;
   text-decoration: none;
@@ -1851,9 +1851,9 @@ input[type="submit"],
   .more-link:after {
     margin-left: .5em; }
   .more-link:focus, .more-link:hover {
-    letter-spacing: .05em; }
+    letter-spacing: .025em; }
     .more-link:focus:after, .more-link:hover:after {
-      margin-left: .75em; }
+      margin-left: .65em; }
 
 .entry-full {
   overflow: hidden; }
