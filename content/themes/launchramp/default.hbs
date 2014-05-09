@@ -39,7 +39,7 @@
         </nav>
     <div id="launchramp" class="hue-default">
 
-      <header id="header" class="id-header{{#if @blog.logo}} with-blog-logo{{else}} without-blog-logo{{/if}}{{#if @blog.cover}} blog-cover{{/if}}" role="banner">
+      <header id="header" class="id-header{{#if @blog.logo}} with-blog-logo{{else}} without-blog-logo{{/if}}{{#if @blog.cover}} blog-cover{{/if}}" role="banner" style="background-position: 0% -60px;">
 
         <div id="site-headings" class="id-site-headings">
           {{#if @blog.logo}}
@@ -118,9 +118,6 @@
             });
           });
         }
-        $('.blog-cover').css({
-         'background-position': 'left -60px'
-        });
         
 
         // FitVids
