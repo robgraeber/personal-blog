@@ -175,16 +175,6 @@ body {
     .inner, .id-site-logo-link, .id-site-description, .without-blog-logo .id-site-title, .id-nav-title, .id-main-menu, .entry-inner, .pagination, .id-footer-links, .id-site-copyright {
       width: 90%; } }
 
-::-moz-selection {
-  background: black;
-  color: white;
-  text-shadow: none; }
-
-::selection {
-  background: black;
-  color: white;
-  text-shadow: none; }
-
 a {
   color: #43acb5; }
   a:focus, a:hover {
@@ -1653,7 +1643,8 @@ input[type="submit"],
   z-index: 1000;
   width: 100%;
   height: 50px;
-  background-color: black; }
+  
+background-color: black; }
   @media only screen and (min-width: 481px) {
     .id-nav {
       height: 60px; } }
