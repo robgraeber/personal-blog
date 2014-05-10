@@ -1638,7 +1638,7 @@ input[type="submit"],
 .id-nav {
   height: 50px;
   background-color: #111111;
-  font-size: 16px;
+  font-size: 15px;
   font-family: Arial, Helvetica, sans-serif; }
 @media only screen and (min-width: 481px) {
   .id-nav {
