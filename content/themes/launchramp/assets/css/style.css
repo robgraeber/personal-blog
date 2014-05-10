@@ -1662,6 +1662,7 @@ input[type="submit"],
   display: block;
   height:100%;
   color: white;
+  margin: 0;
   padding: 0 6px;
   font-size: 1.1em;
   line-height: 55px;
@@ -1689,19 +1690,18 @@ input[type="submit"],
 }
 .id-nav #site-title{
   float: left;
-  height: 100%;
   position: absolute;
 }
 .id-nav #site-title a{
   display: block;
+  height: 100%;
   color: white;
-  height:100%;
   font-size: 1.4em;
   line-height: 54px;
   padding:0 12px;
   font-weight: 500;
   text-shadow: 22 1px 2px rgba(0, 0, 0, 0.4);
-  text-decoration: none;  
+  text-decoration: none;
 }
 @media only screen and (min-width: 481px) {
   .id-nav #site-title a{
@@ -1713,15 +1713,6 @@ input[type="submit"],
     padding:0 24px;
     font-size: 1.8em;
     line-height: 65px; } }
-#infoText{
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  margin-left: -173px;
-  margin-top: -40px;
-  text-align: center;
-  text-shadow: 22 1px 2px rgba(0, 0, 0, 0.4);
-}
 
 .id-nav-title,
 .id-nav-trigger {
