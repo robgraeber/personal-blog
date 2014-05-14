@@ -1572,14 +1572,14 @@ input[type="submit"],
 /*-----------------------------------------------------------------------------------*/
 .id-header {
   overflow: hidden;
-  padding: 50px 0 40px;
+  padding: 40px 0 30px;
   text-align: center; }
   @media only screen and (min-width: 481px) {
     .id-header {
-      padding: 70px 0 60px; } }
+      padding: 60px 0 50px; } }
   @media only screen and (min-width: 769px) {
     .id-header {
-      padding: 100px 0 80px; } }
+      padding: 80px 0 70px; } }
   .id-header a {
     text-decoration: none; }
   .id-header.blog-cover .id-site-title, .id-header.pagination-wrapper .id-site-title,
@@ -1604,7 +1604,7 @@ input[type="submit"],
   text-transform: uppercase;
   font-weight: 700;
   line-height: 1;
-  font-size: 3.44em; }
+  font-size: 3.4em; }
   @media only screen and (min-width: 481px) {
     .id-site-title {
       font-size:3.95em;
@@ -1612,7 +1612,7 @@ input[type="submit"],
   }
   @media only screen and (min-width: 769px) {
     .id-site-title {
-      font-size:4.45em;
+      font-size: 3.95em;
     }
   }
   .id-site-title a {
@@ -1627,25 +1627,25 @@ input[type="submit"],
   font-size: 1.25em; }
   @media only screen and (min-width: 481px) {
     .id-site-description {
-      font-size: 1.25em; } }
+      font-size: 1.35em; } }
   @media only screen and (min-width: 769px) {
     .id-site-description {
-      font-size: 1.5em; } }
+      font-size: 1.45em; } }
 
 /*-----------------------------------------------------------------------------------*/
 /* Navigation
 /*-----------------------------------------------------------------------------------*/
 .id-nav {
-  height: 50px;
-  background-color: #111111;
+  height: 45px;
+  background-color: #020120;
   font-size: 15px;
   font-family: Arial, Helvetica, sans-serif; }
 @media only screen and (min-width: 481px) {
   .id-nav {
-    height: 60px; } }
+    height: 50px; } }
 @media only screen and (min-width: 769px) {
   .id-nav {
-    height: 65px; } }
+    height: 50px; } }
 
 .id-nav ul{
   margin: 0;
@@ -1664,8 +1664,8 @@ input[type="submit"],
   color: white;
   margin: 0;
   padding: 0 6px;
-  font-size: 1.1em;
-  line-height: 55px;
+  font-size: 1.2em;
+  line-height: 49px;
   text-decoration: none; 
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
   font-weight: 500;  
@@ -1679,12 +1679,12 @@ input[type="submit"],
   .id-nav li a{
     padding: 0 18px;
     font-size: 1.2em;
-    line-height: 60px; } }
+    line-height: 51px; } }
 @media only screen and (min-width: 769px) {
   .id-nav li a{
     padding: 0 24px;
-    font-size: 1.3em;
-    line-height: 65px; } }
+    font-size: 1.25em;
+    line-height: 52px; } }
 .id-nav li a:hover{
   background-color: #333;
 }
@@ -1697,7 +1697,7 @@ input[type="submit"],
   height: 100%;
   color: white;
   font-size: 1.4em;
-  line-height: 54px;
+  line-height: 49px;
   padding:0 12px;
   font-weight: 500;
   text-shadow: 22 1px 2px rgba(0, 0, 0, 0.4);
@@ -1706,13 +1706,13 @@ input[type="submit"],
 @media only screen and (min-width: 481px) {
   .id-nav #site-title a{
     padding:0 18px;
-    font-size: 1.7em;
-    line-height: 60px; } }
+    font-size: 1.5em;
+    line-height: 51px; } }
 @media only screen and (min-width: 769px) {
   .id-nav #site-title a{
     padding:0 24px;
-    font-size: 1.8em;
-    line-height: 65px; } }
+    font-size: 1.6em;
+    line-height: 52px; } }
 
 .id-nav-title,
 .id-nav-trigger {
@@ -1834,10 +1834,10 @@ input[type="submit"],
   border-top: 1px solid #cccccc; }
   @media only screen and (min-width: 481px) {
     .entry {
-      padding: 40px 0; } }
+      padding: 30px 0; } }
   @media only screen and (min-width: 769px) {
     .entry {
-      padding: 60px 0; } }
+      padding: 30px 0 60px; } }
 
 .entry-title {
   margin-top: .5em;
