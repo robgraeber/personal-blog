@@ -5,3 +5,5 @@ Ghost.sublime-workspace
 config.example.js
 .sass-cache
 /logs
+/content/data/ghost-dev.db
+/content/data/ghost.db

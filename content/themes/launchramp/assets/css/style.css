@@ -1918,7 +1918,7 @@ input[type="submit"],
 
 @media only screen and (min-width: 481px) {
   .post-long .entry-header {
-    margin-bottom: 2em; } }
+    margin-bottom: 0; } }
 
 /*-----------------------------------------------------------------------------------*/
 /* Sharing
