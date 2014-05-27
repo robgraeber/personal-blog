@@ -1605,15 +1605,15 @@ input[type="submit"],
   font-weight: 700;
   line-height: 1;
   font-size: 3.15em; 
-  transform: scale(1.1, 1); 
-  -webkit-transform: scale(1.1, 1); 
-  -moz-transform: scale(1.1, 1); 
-  -o-transform: scale(1.1, 1); 
-  -ms-transform: scale(1.1, 1);
+  transform: scaleX(1.1);    
+  -webkit-transform: scaleX(1.1);    
+  -moz-transform: scaleX(1.1);    
+  -o-transform: scaleX(1.1);    
+  -ms-transform: scaleX(1.1);
 }
   @media only screen and (min-width: 481px) {
     .id-site-title {
-      font-size:3.95em;
+      font-size: 3.65em;
     }
   }
   @media only screen and (min-width: 769px) {
@@ -1630,13 +1630,19 @@ input[type="submit"],
 
 .id-site-description {
   margin-top: .5em;
-  font-size: 1.25em; }
+  font-size: 1.25em; 
+  transform: scaleX(1.1);    
+  -webkit-transform: scaleX(1.1);    
+  -moz-transform: scaleX(1.1);    
+  -o-transform: scaleX(1.1);    
+  -ms-transform: scaleX(1.1);
+}
   @media only screen and (min-width: 481px) {
     .id-site-description {
-      font-size: 1.35em; } }
+      font-size: 1.45em; } }
   @media only screen and (min-width: 769px) {
     .id-site-description {
-      font-size: 1.45em; } }
+      font-size: 1.4em; } }
 
 /*-----------------------------------------------------------------------------------*/
 /* Navigation
