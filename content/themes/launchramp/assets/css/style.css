@@ -220,27 +220,27 @@ small {
 
 h1 {
   margin: 0.67em 0;
-  font-size: 2em; }
+  font-size: 1.8em; }
 
 h2 {
   margin: 0.83em 0;
-  font-size: 1.5em; }
+  font-size: 1.4em; }
 
 h3 {
   margin: 1em 0;
-  font-size: 1.17em; }
+  font-size: 1.1em; }
 
 h4 {
   margin: 1.33em 0;
-  font-size: 1em; }
+  font-size: 0.9em; }
 
 h5 {
   margin: 1.33em 0;
-  font-size: 1em; }
+  font-size: 0.83em; }
 
 h6 {
   margin: 1.67em 0;
-  font-size: .83em; }
+  font-size: .75em; }
 
 .heading, h1,
 h2,
