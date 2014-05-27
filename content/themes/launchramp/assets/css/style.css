@@ -254,7 +254,18 @@ tfoot td, legend, .id-main-menu, .id-share {
   color: black;
   font-weight: 400;
   font-family: "Oswald", "Helvetica Neue", Arial, Helvetica, sans-serif;
-  line-height: 1.2; }
+  line-height: 1.2; 
+  transform: scaleX(1.1); 
+  -o-transform: scaleX(1.1); 
+  -ms-transform: scaleX(1.1); 
+  -moz-transform: scaleX(1.1); 
+  -webkit-transform: scaleX(1.1); 
+  transform-origin: 0;
+  -o-transform-origin: 0; 
+  -ms-transform-origin: 0; 
+  -moz-transform-origin: 0; 
+  -webkit-transform-origin: 0; 
+}
 
 h5,
 h6 {
@@ -1573,7 +1584,8 @@ input[type="submit"],
 .id-header {
   overflow: hidden;
   padding: 40px 0 30px;
-  text-align: center; }
+  text-align: center; 
+}
   @media only screen and (min-width: 481px) {
     .id-header {
       padding: 60px 0 50px; } }
@@ -1605,11 +1617,11 @@ input[type="submit"],
   font-weight: 700;
   line-height: 1;
   font-size: 3.15em; 
-  transform: scaleX(1.1);    
-  -webkit-transform: scaleX(1.1);    
-  -moz-transform: scaleX(1.1);    
-  -o-transform: scaleX(1.1);    
-  -ms-transform: scaleX(1.1);
+  transform-origin: 50%;
+  -o-transform-origin: 50%; 
+  -ms-transform-origin: 50%; 
+  -moz-transform-origin: 50%; 
+  -webkit-transform-origin: 50%; 
 }
   @media only screen and (min-width: 481px) {
     .id-site-title {
@@ -1630,12 +1642,12 @@ input[type="submit"],
 
 .id-site-description {
   margin-top: .5em;
-  font-size: 1.25em; 
-  transform: scaleX(1.1);    
-  -webkit-transform: scaleX(1.1);    
-  -moz-transform: scaleX(1.1);    
-  -o-transform: scaleX(1.1);    
-  -ms-transform: scaleX(1.1);
+  font-size: 1.25em;
+  transform-origin: 50%;
+  -o-transform-origin: 50%; 
+  -ms-transform-origin: 50%; 
+  -moz-transform-origin: 50%; 
+  -webkit-transform-origin: 50%;  
 }
   @media only screen and (min-width: 481px) {
     .id-site-description {
@@ -1853,7 +1865,8 @@ input[type="submit"],
 
 .entry-title {
   margin-top: .5em;
-  color: black; }
+  color: black; 
+}
   .entry-title a {
     color: black;
     text-decoration: none; }
