@@ -2018,7 +2018,13 @@ input[type="submit"],
 
 .author-name {
   margin: 0;
-  font-size: 1.25em; }
+  font-size: 1.25em; 
+  transform-origin: 50%;
+  -o-transform-origin: 50%; 
+  -ms-transform-origin: 50%; 
+  -moz-transform-origin: 50%; 
+  -webkit-transform-origin: 50%;
+}
 
 .author-meta,
 .author-description {
