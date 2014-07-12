@@ -6041,6 +6041,16 @@ select {
                 margin: 1rem auto
             }
         }
+        .tag-template #at_showcase .at_block {
+            width: 80%;
+            margin: 2rem auto 1.2rem;}
+        
+        @media only screen and (max-width: 40em) {
+            .tag-template #at_showcase .at_block {
+                width:100%;
+                margin: 1rem auto
+            }
+        }
         
         #at_showcase .at_post_share_title,#at_showcase .at_post_title,#at_showcase .at_subtitle,#at_showcase .at_title,#at_showcase .at_version {
             color: #fff;
