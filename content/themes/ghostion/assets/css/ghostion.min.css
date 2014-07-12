@@ -3296,6 +3296,7 @@ select {
         .at_header_title {
           height: 51px;
           color: white;
+          padding-left: 2px;
         }
         .at_header_title ul{
           margin: 0;
@@ -6062,7 +6063,8 @@ select {
         }
         
         .at_blog_cover {
-            background-size: cover
+            background-size: cover;
+            background-color: blue;
         }
         
         .at_showcase_overlay {
