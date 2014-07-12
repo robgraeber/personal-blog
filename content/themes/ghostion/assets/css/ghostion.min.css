@@ -38,7 +38,7 @@ body {
     color: #222;
     padding: 0;
     margin: 0;
-    font-family: "Helvetica Neue",Helvetica,Helvetica,Arial,sans-serif;
+    font-family: Arial, sans-serif;
     font-weight: 400;
     font-style: normal;
     line-height: 1;
@@ -5894,7 +5894,6 @@ select {
             background-color: #fff;
             font-size: 16px;
             line-height: 1.6;
-            font-family: Arial, sans-serif;
         }
         
         h1,h2,h3,h4,h5,h6 {
