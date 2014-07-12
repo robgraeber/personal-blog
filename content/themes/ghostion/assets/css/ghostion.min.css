@@ -3297,7 +3297,13 @@ select {
           color: white;
         }
         .poweredby a:hover{
-          color: darkgray;
+          color: #333;
+        }
+        .copyright a{
+          color: white;
+        }
+        .copyright a:hover{
+          color: #333;
         }
         .at_header_title {
           height: 51px;
@@ -5905,8 +5911,7 @@ select {
         }
         
         a:focus,a:hover {
-            color: #222d31
-        }
+            color: #111111;}
         
         .at_block {
             padding: 1rem;
