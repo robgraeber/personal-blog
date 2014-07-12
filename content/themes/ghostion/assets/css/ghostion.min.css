@@ -38,7 +38,7 @@ body {
     color: #222;
     padding: 0;
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: open-sans, Arial, sans-serif;
     font-weight: 400;
     font-style: normal;
     line-height: 1;
@@ -3293,17 +3293,14 @@ select {
             list-style-position: outside;
             font-family: inherit
         }
-        .poweredby a{
+        #at_footer a{
           color: white;
         }
-        .poweredby a:hover{
+        #at_footer a:hover{
           color: #333;
         }
-        .copyright a{
-          color: white;
-        }
-        .copyright a:hover{
-          color: #333;
+        #at_showcase {
+          /*font-family: sans-serif;*/
         }
         .at_header_title {
           height: 51px;
@@ -5898,7 +5895,7 @@ select {
         
         h1,h2,h3,h4,h5,h6 {
             color: #4e4e4e;
-            font-family: sans-serif;
+            /* font-family: sans-serif; */
             font-weight: 700
         }
         
